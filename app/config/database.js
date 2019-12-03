@@ -1,18 +1,16 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-let uri = `mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASSWORD}@${process.env.ATLAS_CONNECTION}/ProjetoBackend`;
-if(process.env.NODE_ENV === 'local') {
-    uri = 'mongodb://localhost/ProjetoBackend'
-} 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  
+
+mongoose.connect('mongodb://localhost/TestBackEndAccenture', { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true);
 
-const db = mongoose.connection
+const dataBase = mongoose.connection
 
-db.on('error', console.error)
-db.once('open', () => {
-    console.log('Connected to MongoDB.')
+dataBase.on('error', console.error)
+dataBase.once('open', () => {
+    console.log('Connected.')
 })
 
-module.exports = db
+module.exports = dataBase

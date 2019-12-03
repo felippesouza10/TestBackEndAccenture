@@ -2,24 +2,24 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const { secret } = require('../config/auth');
+const { secret } = require('../config/authenticator');
 const { ERROR, GenericError } = require('../config/constants');
 
-const authentication = async (email, password) => {
+const authentication = async (email, senha) => {
 
-    if (!email || !password) {
+    if (!email || !senha) {
         const { status, message } = ERROR[2]
         throw new GenericError(status, message)
     }
 
     try {
-        const user = await User.findOne({ email }).select('+password')
+        const user = await User.findOne({ email }).select('+senha')
         if (!user) {
             const { status, message } = ERROR[2]
             throw new GenericError(status, message)
         }
 
-        if (!await bcrypt.compare(password, user.password)) {
+        if (!await bcrypt.compare(senha, user.senha)) {
             const { status, message } = ERROR[2]
             throw new GenericError(status, message)
         }
@@ -27,10 +27,10 @@ const authentication = async (email, password) => {
         const token = jwt.sign({ id: user._id }, secret, { expiresIn: 3600000 })
 
         const userUpdated = {
-            name: user.name,
+            nome: user.nome,
             email: user.email,
-            password: user.password,
-            phones: user.phones,
+            senha: user.senha,
+            telefones: user.telefones,
             lastLogin: new Date(),
             token
         }
@@ -39,9 +39,9 @@ const authentication = async (email, password) => {
             .then(result => {
                 return {
                     id: result._id,
-                    createdAt: result.createdAt,
-                    updatedAt: result.updatedAt,
-                    lastLogin: new Date(),
+                    data_criacao: result.data_criacao,
+                    data_atualizacao: result.data_atualizacao,
+                    ultimo_login: new Date(),
                     token
                 }
             })

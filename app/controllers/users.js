@@ -1,40 +1,40 @@
 const service = require('../services/users')
 
-const getUser = async (req, res) => {
+const getUser = async (request, response) => {
     try {
-        const { id } = req.params
-        const { authorization } = req.headers
+        const { id } = request.params
+        const { authorization } = request.headers
         if (id) {
-            res.send(await service.getUser(authorization, id))
+            response.send(await service.getUser(authorization, id))
         } else {
-            res.send(await service.getUser(authorization))
+            response.send(await service.getUser(authorization))
         }
     } catch (error) {
-        res.status(error.status).send(error.message)
+        response.status(error.status).send({mensagem: error.message})
         return false
     }
 }
 
-const saveUser = async (req, res) => {
+const saveUser = async (request, response) => {
     try {
-        const user = req.body
+        const user = request.body
         const result = await service.saveUser(user)
-        res.send(result)
+        response.send(result)
     } catch (error) {
-        res.status(error.status).send(error.message)
+        response.status(error.status).send({mensagem: error.message})
         return false
     }
 }
 
-const updateUser = async (req, res) => {
+const updateUser = async (request, response) => {
     try {
-        const { id } = req.params
-        const user = req.body
-        const { authorization } = req.headers
+        const { id } = request.params
+        const user = request.body
+        const { authorization } = request.headers
         const result = await service.updateUser(id, user, authorization)
-        res.send(result)
+        response.send(result)
     } catch (error) {
-        res.status(error.status).send(error.message)
+        response.status(error.status).send({mensagem: error.message})
         return false
     }
 }

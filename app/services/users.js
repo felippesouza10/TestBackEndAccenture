@@ -22,7 +22,7 @@ const getUser = async (bearerToken = null, id = null) => {
                         throw new GenericError(status, message)
                     }
 
-                    user.password = undefined
+                    user.senha = undefined
                     return user
                 } else {
                     const { status, message } = ERROR[5]
@@ -37,7 +37,7 @@ const getUser = async (bearerToken = null, id = null) => {
     return await User.find()
         .exec()
         .then(result => {
-            result.password = undefined
+            result.senha = undefined
             return result
         })
         .catch(error => {
@@ -64,9 +64,9 @@ const saveUser = async (obj) => {
         .then(result => {
             return {
                 id: result._id,
-                createdAt: result.createdAt,
-                updatedAt: result.updatedAt,
-                lastLogin: result.lastLogin,
+                data_criacao: result.data_criacao,
+                data_atualizacao: result.data_atualizacao,
+                ultimo_login: result.ultimo_login,
                 token: result.token
             }
         })
@@ -85,10 +85,10 @@ const updateUser = async (id, user, bearerToken) => {
         .then(result => {
             if (result) {
                 return {
-                    name: result.name,
+                    nome: result.nome,
                     email: result.email,
-                    password: result.password,
-                    phones: result.phones,
+                    senha: result.senha,
+                    telefones: result.telefones,
                     createdAt: result.createdAt,
                     updatedAt: result.updatedAt,
                     lastLogin: result.lastLogin,

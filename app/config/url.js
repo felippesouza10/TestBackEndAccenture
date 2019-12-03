@@ -1,6 +1,6 @@
 const user = require('../routes/users')
 const register = require('../routes/register')
-const auth = require('../routes/auth')
+const auth = require('../routes/authenticator')
 
 const addURLs = (app) => {
     app.use('/signup', register)

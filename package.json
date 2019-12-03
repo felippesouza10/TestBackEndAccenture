@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "start:dev": "nodemon app.js"
+    "start:dev": "nodemon app.js",
+    "eslint": "eslint app/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "mongoose": "^5.7.5"
   },
   "devDependencies": {
+    "eslint": "^6.7.2",
     "nodemon": "^1.19.4"
   }
 }

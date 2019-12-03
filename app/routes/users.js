@@ -1,8 +1,7 @@
-const express = require('express')
-const router = express.Router()
+const router = require('express').Router()
 
 const controller = require('../controllers/users')
-const authMiddleware = require('../middlewares/auth')
+const authMiddleware = require('../middlewares/authenticator')
 
 router.use(authMiddleware)
 

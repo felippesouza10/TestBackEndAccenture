@@ -2,25 +2,28 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { secret } = require('../config/auth');
+const { secret } = require('../config/authenticator');
 
 let userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, require: true, select: false },
-    phones: [{
-        number: { type: String },
-        ddd: { type: String }
+    token:     { type: String, require: true },
+    ultimo_login: { type: Date, default:  new Date() },
+    data_atualizacao: { type: Date, default:  new Date() },
+    data_criacao: { type: Date, default:  new Date() },
+
+    nome:     { type: String, required: true },
+    email:    { type: String, required: true, unique: true, lowercase: true },
+    senha: { type: String, require: true, select: false },
+    telefones:    [{
+        numero: { type: String },
+        ddd:    { type: String }
     }],
-    token: { type: String, require: true },
-    lastLogin: { type: Date, default:  new Date() },
-    updatedAt: { type: Date, default:  new Date() },
-    createdAt: { type: Date, default:  new Date() }
+    
 })
 
 userSchema.pre('save', async function (next) {
-    this.password = await bcrypt.hash(this.password, 10)
     this.token = jwt.sign({ id: this._id }, secret, { expiresIn: 3600000 })
+    this.senha = await bcrypt.hash(this.senha, 10)
+    
     next()
 })
 
